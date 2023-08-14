@@ -66,11 +66,11 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     }
     let review ={stars:stars, comment:""};
     if(req.body.comment){
-        review['comment'] = req.body.comment;        
+        review['comment'] = req.body.comment;       
     }
     books[req.params.isbn].reviews[req.session.authorization['username']] = review;
 
-  return res.status(200).json({message: `successfully added ${req.session.authorization['username']}'s review`});
+  return res.status(200).json({message: `successfully added ${req.session.authorization['username']}'s review to book ${books[req.params.isbn].title}`});
 });
 
 

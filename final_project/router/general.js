@@ -15,7 +15,7 @@ public_users.post("/register", (req,res) => {
         }
         
         users.push({username: username, password:password});
-        return res.send(`Successfully created user ${username}`);
+        return res.status(200).json({ message:`Successfully created user ${username}, now you can login`});
     }
 
     return res.status(400).json({message: "Username or pass weren't submitted"})
@@ -23,12 +23,12 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  return res.send(JSON.stringify(books));
+  return res.send(books);
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  return res.send(JSON.stringify(books[req.params.isbn]));
+  return res.send(books[req.params.isbn]);
  });
 
 public_users.get('/author/:author', function (req, res){
@@ -39,7 +39,7 @@ public_users.get('/author/:author', function (req, res){
     for(i=0; i< authored_books_ids.length; i++){
         authored_books[authored_books_ids[i]] = books[authored_books_ids[i]];
     };
-    return res.send(JSON.stringify(authored_books));
+    return res.send(authored_books);
 });
 
 // Get all books based on title
@@ -51,12 +51,12 @@ public_users.get('/title/:title', function (req, res){
     for(i=0; i< titled_books_ids.length; i++){
         titled_books[titled_books_ids[i]] = books[titled_books_ids[i]];
     };
-    return res.send(JSON.stringify(titled_books));
+    return res.send(titled_books);
 });
 
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
-  return res.send(JSON.stringify(books[req.params.isbn].reviews));
+  return res.send(books[req.params.isbn].reviews);
 });
 
 module.exports.general = public_users;

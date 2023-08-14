@@ -10,18 +10,12 @@ public_users.post("/register", (req,res) => {
         username = req.body.username;
         password = req.body.password;
 
-        user_exists = users.filter((user)=>{
-            return user.username == username; 
-        });
-
-        if(user_exists.length > 0){
+        if(isValid(username)){
             return res.status(409).json({message: "A user with this username already exists"});
         }
         
         users.push({username: username, password:password});
-        console.log(users)
         return res.send(`Successfully created user ${username}`);
-
     }
 
     return res.status(400).json({message: "Username or pass weren't submitted"})

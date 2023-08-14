@@ -23,12 +23,32 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  return res.send(books);
+    // this seems like a really dumb way to do this but it is what the IBM course asked for
+
+    function bookResults(bookObject){
+        return res.send(bookObject);
+    };
+
+    function getBooks(callback, books){
+        let booksObject = books;
+        callback(booksObject)
+    };
+    getBooks(bookResults, books)
+  
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  return res.send(books[req.params.isbn]);
+    const book = new Promise ((resolve, reject) => {
+        resolve(books[req.params.isbn])
+    });
+
+    book.then((data)=>{
+        return res.send(data);
+    })
+    .catch((err)=>{
+        return res.status(500).json({message: "Something went wrong"})
+    });
  });
 
 public_users.get('/author/:author', function (req, res){
